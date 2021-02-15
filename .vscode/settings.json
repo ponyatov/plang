@@ -7,7 +7,7 @@
                 {"command": "workbench.action.tasks.runTask",
                     "args": "make: test"}
                 // {"command": "workbench.action.terminal.sendSequence",
-                //     "args": {"text": "\u000D clear ; make web \u000D"}}
+                //     "args": {"text": "\u000D clear ; make test \u000D"}}
             ]
         },
         {
@@ -15,9 +15,9 @@
             "sequence": [
                 "workbench.action.files.saveAll",
                 {"command": "workbench.action.tasks.runTask",
-                    "args": "module: install"}
+                    "args": "make: repl"}
                 // {"command": "workbench.action.terminal.sendSequence",
-                //     "args": {"text": "\u000D clear ; make doxy \u000D"}}
+                //     "args": {"text": "\u000D clear ; make repl \u000D"}}
             ]
         },
     ],

@@ -5,6 +5,5 @@
 
 github: https://bitbucket.org/ponyatov/plang/
 
-* [pmem]<br>
-    Intel<br>
-    [Programming Persistent Memory: A Comprehensive Guide for Developers](https://pmem.io/book/)
+* [pmem] https://pmem.io/<br>
+    * Intel's [Programming Persistent Memory: A Comprehensive Guide for Developers](https://pmem.io/book/)
