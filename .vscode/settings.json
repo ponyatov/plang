@@ -5,9 +5,9 @@
             "sequence": [
                 "workbench.action.files.saveAll",
                 {"command": "workbench.action.tasks.runTask",
-                    "args": "make: test"}
+                    "args": "make: doxy"}
                 // {"command": "workbench.action.terminal.sendSequence",
-                //     "args": {"text": "\u000D clear ; make test \u000D"}}
+                //     "args": {"text": "\u000D clear ; make doxy \u000D"}}
             ]
         },
         {
@@ -23,9 +23,11 @@
     ],
 
     "files.watcherExclude": {
+        "**/docs/**": true,
     },
 
     "files.exclude": {
+        "**/docs/**": true,
     },
 
     "files.associations": {

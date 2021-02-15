@@ -32,6 +32,12 @@
             "problemMatcher": []
         },
         {
+            "label":          "make: doxy",
+            "type":           "shell",
+            "command":        "make doxy",
+            "problemMatcher": []
+        },
+        {
             "label":          "make: repl",
             "type":           "shell",
             "command":        "make repl",

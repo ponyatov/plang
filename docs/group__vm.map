@@ -1,0 +1,8 @@
+<map id="vm" name="vm">
+<area shape="rect" id="node1" href="$group__compiler.html" title="compilation in FORTH means adding bytes to the end of used memory " alt="" coords="101,5,172,32"/>
+<area shape="rect" id="node2" href="$group__mem.html" title="VM registers &amp; memory spaces. " alt="" coords="111,56,162,83"/>
+<area shape="rect" id="node3" href="$group__asm.html" title="simple FORTH&#45;like portable bytecode assembler " alt="" coords="113,107,160,133"/>
+<area shape="rect" id="node4" href="$group__bcx.html" title="bytecode interpreter (executor) " alt="" coords="115,157,158,184"/>
+<area shape="rect" id="node5" href="$group__config.html" title="config" alt="" coords="108,208,165,235"/>
+<area shape="rect" id="node6" href="$group__cmd.html" title="byte&#45;sized commands for stack machine " alt="" coords="93,259,180,285"/>
+</map>

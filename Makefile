@@ -20,6 +20,7 @@ CURL         = curl
 CXX         ?= g++
 LEX          = flex
 YACC         = bison
+FORMAT       = clang-format -style=LLVM
 # / <section:tool>
 # \ <section:src>
 C += src/vm.cpp
@@ -32,12 +33,13 @@ S += $(C) $(H)
 all: ./bin/$(MODULE)
 
 .PHONY: repl
-repl: ./bin/$(MODULE) $(S)
-	$^
+repl: ./bin/$(MODULE) src/empty.p
+	./$^
 
 CFLAGS += -I$(TMP) -I$(INC) -I$(SRC)
 
 ./bin/$(MODULE): $(C) $(P) $(H)
+	$(FORMAT) -i $(C) $(H)
 	$(CXX) $(CFLAGS) -o $@ $(C) $(P) $(L)
 
 tmp/lexer.cpp: src/lexer.lex
@@ -48,12 +50,25 @@ tmp/parser.cpp: src/parser.yacc
 # / <section:all>
 # \ <section:doc>
 .PHONY: doc
-doc: doc/SNIA_NVMProgrammingModel_v1.2.pdf
+doc: \
+	doc/SNIA_NVMProgrammingModel_v1.2.pdf \
+	doc/2020_Book_ProgrammingPersistentMemory.pdf \
+	doc/ALittleSmalltalk.pdf doc/SmallTalk-80.pdf \
+	doc/Threaded_interpretive_languages.pdf
+doc/2020_Book_ProgrammingPersistentMemory.pdf:
+	$(WGET) -O $@ https://github.com/ponyatov/plang/releases/download/150221-077d/2020_Book_ProgrammingPersistentMemory.pdf
 doc/SNIA_NVMProgrammingModel_v1.2.pdf:
 	$(WGET) -O $@ https://www.snia.org/sites/default/files/technical_work/final/NVMProgrammingModel_v1.2.pdf
-# .PHONY: doxy
-# doxy:
-# 	rm -rf docs ; doxygen doxy.gen 1>/dev/null
+doc/ALittleSmalltalk.pdf:
+	$(WGET) -O $@ http://rmod-files.lille.inria.fr/FreeBooks/LittleSmalltalk/ALittleSmalltalk.pdf
+doc/SmallTalk-80.pdf:
+	$(WGET) -O $@ http://rmod-files.lille.inria.fr/FreeBooks/BlueBook/Bluebook.pdf
+doc/Threaded_interpretive_languages.pdf:
+	$(WGET) -O $@ http://sinclairql.speccy.org/archivo/docs/books/Threaded_interpretive_languages.pdf
+
+.PHONY: doxy
+doxy:
+	rm -rf docs ; doxygen doxy.gen 1>/dev/null
 # / <section:doc>
 # \ <section:install>
 .PHONY: install
@@ -67,10 +82,8 @@ Linux_install Linux_update:
 	sudo apt install -u `cat apt.txt`
 # / <section:install>
 # \ <section:merge>
-MERGE  = Makefile README.md .vscode $(S)
-MERGE += apt.txt apt.dev requirements.txt
-MERGE += static templates
-MERGE += geo/data
+MERGE  = Makefile README.md .vscode $(S) apt.txt
+MERGE += doc doxy.gen
 .PHONY: main
 main:
 	git push -v
