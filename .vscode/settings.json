@@ -1,0 +1,37 @@
+{
+    "multiCommand.commands": [
+        {
+            "command": "multiCommand.f11",
+            "sequence": [
+                "workbench.action.files.saveAll",
+                {"command": "workbench.action.tasks.runTask",
+                    "args": "make: test"}
+                // {"command": "workbench.action.terminal.sendSequence",
+                //     "args": {"text": "\u000D clear ; make web \u000D"}}
+            ]
+        },
+        {
+            "command": "multiCommand.f12",
+            "sequence": [
+                "workbench.action.files.saveAll",
+                {"command": "workbench.action.tasks.runTask",
+                    "args": "module: install"}
+                // {"command": "workbench.action.terminal.sendSequence",
+                //     "args": {"text": "\u000D clear ; make doxy \u000D"}}
+            ]
+        },
+    ],
+
+    "files.watcherExclude": {
+    },
+
+    "files.exclude": {
+    },
+
+    "files.associations": {
+    },
+
+    "editor.tabSize": 4,
+    "editor.rulers": [80],
+    "workbench.tree.indent": 32,
+}

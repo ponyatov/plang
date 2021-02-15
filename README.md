@@ -1,5 +1,5 @@
 #  `plang`
-## P language: programming language over `libpmem` persistent memory
+## P language: programming over `libpmem` persistent memory
 
 (c) Dmitry Ponyatov <<dponyatov@gmail.com>> 2021 MIT
 
