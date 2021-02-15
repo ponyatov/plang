@@ -24,9 +24,14 @@ FORMAT       = clang-format -style=LLVM
 # / <section:tool>
 # \ <section:src>
 C += src/vm.cpp
-P += tmp/lexer.cpp tmp/parser.cpp
+T += tmp/lexer.cpp tmp/parser.cpp
 H += include/vm.hpp
-S += $(C) $(H)
+
+L += -lpmem
+
+P += src/empty.p
+
+S += $(C) $(H) $(P)
 # / <section:src>
 # \ <section:all>
 .PHONY: all
@@ -38,9 +43,9 @@ repl: ./bin/$(MODULE) src/empty.p
 
 CFLAGS += -I$(TMP) -I$(INC) -I$(SRC)
 
-./bin/$(MODULE): $(C) $(P) $(H)
+./bin/$(MODULE): $(C) $(T) $(H)
 	$(FORMAT) -i $(C) $(H)
-	$(CXX) $(CFLAGS) -o $@ $(C) $(P) $(L)
+	$(CXX) $(CFLAGS) -o $@ $(C) $(T) $(L)
 
 tmp/lexer.cpp: src/lexer.lex
 	$(LEX) -o $@ $<

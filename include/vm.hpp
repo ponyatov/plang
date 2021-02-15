@@ -22,6 +22,8 @@
 #include <map>
 #include <vector>
 
+#include "libpmem.h"
+
 /// @defgroup vm vm
 /// @brief Virtual Machine /FORTH inspired/
 /// @{

@@ -4,7 +4,7 @@
   only the single reason to use it.
 
 * From the other practical points of view this language is ugly: low-level,
-  no-syntax, write-only, there is no memory & access protection, etc.
+  no-syntax, write-only, no memory-access protection, etc.
 
 * Anyway, FORTH is still the best for CLI especially for very small systems
   (embedded, IoT) -- command shell not only enough but also very usable.  
