@@ -70,7 +70,56 @@ $(function() {
 <li>Anyway, FORTH is still the best for CLI especially for very small systems (embedded, IoT) &ndash; command shell not only enough but also very usable.</li>
 <li>Here, we use FORTH-like assembly as a portable machine language and use source code files as the input for the system startup.</li>
 <li>For the prototype, portability is many times more important than speed or compactness.</li>
-<li>We can select bytecode format and command set to be easy to disassemble and generate, but it still able to run fast enough for tiny software systems. </li>
+<li>We can select bytecode format and command set to be easy to disassemble and generate, but it still able to run fast enough for tiny software systems.</li>
+</ul>
+<h2>Principles</h2>
+<ul>
+<li>make programming language as simple as possible / <b>no-syntax</b> /<ul>
+<li>very simple no-syntax: any group of non-space chars means <b>word</b> (function) name<ul>
+<li>the only single exception is integer numbers, there is no floating-point</li>
+</ul>
+</li>
+<li>every next word from the source code stream (command line input) parsed will be immediately executed before the next word</li>
+<li>the system works in two modes: interpretation + compilation<ul>
+<li>in compilation mode, every parsed word will be compiled as its call at the end of the used memory<ul>
+<li>some <b>immediate</b> words must be anyway executed in compilation mode because these words implement the compiler: control structures, strings,..</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>there is no syntax parser: every word can be elementary selected till the next delimiter (tab/space, end-of-line, string paren)</li>
+<li>compiled words are stored with their headers (names) in a dumb single linked list from the beginning of memory<ul>
+<li>parsed word name goes thru the lookup via this words <b>vocabulary</b>, and<ul>
+<li>founded compiled code can be executed immediately, or</li>
+<li>the <code>call</code> command to this code can be compiled</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>the <b>compilation</b> is just only adding byte by byte to the end of the used memory<ul>
+<li>any user-defined word is able to be <em>immediate</em>, and can modify memory &ndash; so, user is able to extend the compiler as it wants to do</li>
+</ul>
+</li>
+<li>due to the lack of a syntax parser which able to look forward, you are forced to use <b>postfix notation</b>: parameters must be first pushed into the operational data stack before the word name which will process them<ul>
+<li>any user-defined word is able to look ahead at the source stream by fetching the next words &ndash; you can use the simplest case of prefix notation in some cases</li>
+</ul>
+</li>
+<li>all processing must be done via the using of the stack machine concept<ul>
+<li>all operations must be done on the <b>data stack</b></li>
+<li>there are only a few words to fetch/store data between stack and memory</li>
+<li>word (commands, functions) has no parameters because any word has only one global parameter &ndash; the data stack, and the only few top stack elements which can be manipulated</li>
+</ul>
+</li>
+<li>postfix notation and stack processing makes the FORTH language ugly and unreadable<ul>
+<li>you must track the state of data stack in every machine command step, and shake it if you need some deeper data element, or two top elements in reverse order</li>
+<li>there are no any parens, operators and their precedence</li>
+<li>there are no floating-point, dynamic memory allocation, libraries,..</li>
+<li><b>it's the price of the extremal simplicity, which lets you write your own FORTH in a few days from scratch</b> (including bare machine code)</li>
+<li>if you prefer esoteric coding and the hacking of very light systems, it's yours </li>
+</ul>
+</li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
