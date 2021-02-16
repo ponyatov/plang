@@ -37,9 +37,12 @@ S += $(C) $(H) $(P)
 .PHONY: all
 all: ./bin/$(MODULE)
 
+NVRAM = tmp/M.nvram
+
 .PHONY: repl
 repl: ./bin/$(MODULE) src/empty.p
 	./$^
+	ls -la $(NVRAM) ; hexdump -C $(NVRAM)
 
 CFLAGS += -I$(TMP) -I$(INC) -I$(SRC)
 
@@ -89,6 +92,7 @@ Linux_install Linux_update:
 # \ <section:merge>
 MERGE  = Makefile README.md .vscode $(S) apt.txt
 MERGE += doc doxy.gen
+MERGE += src tmp bin
 .PHONY: main
 main:
 	git push -v

@@ -1,10 +1,11 @@
 # empty program
 
-init:                               # label
+zero:                               # label
             nop
 #            jmp     unresolved
             call    forward
             bye
-            jmp     init
+            jmp     zero
 forward:
             ret
+:init       jmp     zero

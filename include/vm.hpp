@@ -22,8 +22,6 @@
 #include <map>
 #include <vector>
 
-#include "libpmem.h"
-
 /// @defgroup vm vm
 /// @brief Virtual Machine /FORTH inspired/
 /// @{
@@ -36,7 +34,7 @@
 /// single-byte addressing
 #define BYTE uint8_t
 /// main memory size, bytes
-#define Msz 0x10
+#define Msz 0x20
 /// return (call) stack size, cells
 #define Rsz 0x100
 /// data stack size, cells
@@ -47,6 +45,10 @@
 /// @defgroup asm asm
 /// @brief simple FORTH-like portable bytecode assembler
 /// @{
+
+/// @brief assembler
+/// @param[in] pfile source code file path
+void assembler(const char *pfile);
 
 /// lexer /flex/
 extern int yylex();
@@ -99,7 +101,8 @@ extern CELL Cfetch(CELL addr);
 /// @}
 /// @}
 extern CELL Cp;
-extern BYTE M[Msz];
+extern CELL Hp;
+extern BYTE *M;
 extern CELL Ip;
 
 /// @defgroup cmd commands
@@ -137,9 +140,28 @@ extern void ret();
 /// @{
 
 /// compile byte: `M[Cp++] = b`
-extern void Bcompile(BYTE b);
+extern void Cbyte(BYTE b);
 /// compile cell: `C[Cp+=CELL] = c`
-extern void Ccompile(CELL c);
+extern void Ccell(CELL c);
+
+/// compile word header
+extern void Cheader(std::string *s);
+
+/// @name word header structure /offsets/
+/// @{
+
+/// LFA: Link Field Area
+#define LFA (0)
+/// AFA: Attributes Field Area (IMMED,..)
+#define AFA (LFA + sizeof(CELL))
+/// NFA: Name Field Area (tiny byte-counted ASCII string)
+#define NFA (AFA + sizeof(BYTE))
+/// maximum word name length
+#define NFA_MAX 0x11
+/// CFA: Code Field Area (bytecode)
+#define CFA (NFA + sizeof(BYTE) + M[NFA])
+
+/// @}
 
 /// @}
 
@@ -150,6 +172,41 @@ extern void Ccompile(CELL c);
 /// @brief bytecode pipeline loop: fetch/decode/execute
 /// @ingroup vm
 extern void bcx();
+
+/// @defgroup persist persist
+/// @brief `libpmem` persistent layer
+/// @{
+
+#include <libpmem.h>
+
+#include <fcntl.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+/// image file path
+#define M_NVRAM "tmp/M.nvram"
+#define M_NVRAM_UMASK (S_IRUSR | S_IWUSR)
+#define MMAP_PROT (PROT_READ | PROT_WRITE)
+
+/// program entry point
+#define NVRAM_Ip (sizeof(CELL) * 0)
+/// compiler pointer
+#define NVRAM_Cp (sizeof(CELL) * 1)
+/// latest word in vocabulary
+#define NVRAM_Hp (sizeof(CELL) * 2)
+/// memory image header size
+#define NVRAM_HEADER (sizeof(CELL) * 3)
+
+/// persistent layer init
+/// @return true if image file exists
+extern bool pinit(const char *path);
+
+/// sync system state `->` image
+extern void psync();
+
+/// @}
 
 #endif // _VM_HPP
 

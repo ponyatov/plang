@@ -13,8 +13,9 @@
 %%
 REPL : 
                                                     /* opcode-only command  */
-REPL : REPL cmd0            { Bcompile($2); }
+REPL : REPL cmd0            { Cbyte($2); }
                                                     /* command with label   */
-REPL : REPL cmd1 tNAME      { Bcompile($2); Lcompile($3); }
+REPL : REPL cmd1 tNAME      { Cbyte($2); Lcompile($3); }
                                                     /* new label            */
 REPL : REPL tNAME tCOLON    { Ldefine($2); }
+REPL : REPL tCOLON tNAME    { Cheader($3); /*CFA*/ Ldefine($3); }
