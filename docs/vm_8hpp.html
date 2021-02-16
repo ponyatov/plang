@@ -78,8 +78,13 @@ $(function() {
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;libpmem.h&quot;</code><br />
 <code>#include &quot;parser.hpp&quot;</code><br />
+<code>#include &lt;libpmem.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;sys/mman.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for vm.hpp:</div>
 <div class="dyncontent">
@@ -124,7 +129,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaec93e83855ac17c3c25c55c37ca186dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">single-byte addressing <br /></td></tr>
 <tr class="separator:gaec93e83855ac17c3c25c55c37ca186dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad197097190188a1227ecf9ae73cc79fb"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__config.html#gad197097190188a1227ecf9ae73cc79fb">Msz</a>&#160;&#160;&#160;0x10</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__config.html#gad197097190188a1227ecf9ae73cc79fb">Msz</a>&#160;&#160;&#160;0x20</td></tr>
 <tr class="memdesc:gad197097190188a1227ecf9ae73cc79fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">main memory size, bytes <br /></td></tr>
 <tr class="separator:gad197097190188a1227ecf9ae73cc79fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad490b09d64ce578835754c6c46b4ef89"><td class="memItemLeft" align="right" valign="top">
@@ -156,9 +161,59 @@ Macros</h2></td></tr>
 <tr class="memitem:gac17b56b3f16e386162ca89b361d18b14"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>op_LIT</b>&#160;&#160;&#160;0x05</td></tr>
 <tr class="separator:gac17b56b3f16e386162ca89b361d18b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadaff534c7ce5d0a0ace191fb9559bb26"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#gadaff534c7ce5d0a0ace191fb9559bb26">M_NVRAM</a>&#160;&#160;&#160;&quot;tmp/M.nvram&quot;</td></tr>
+<tr class="memdesc:gadaff534c7ce5d0a0ace191fb9559bb26"><td class="mdescLeft">&#160;</td><td class="mdescRight">image file path <br /></td></tr>
+<tr class="separator:gadaff534c7ce5d0a0ace191fb9559bb26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5e8077c1e20583051d0ecc2560dbff1d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>M_NVRAM_UMASK</b>&#160;&#160;&#160;(S_IRUSR | S_IWUSR)</td></tr>
+<tr class="separator:ga5e8077c1e20583051d0ecc2560dbff1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3a1aea60d3139bc62769ccc05bfa21e"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MMAP_PROT</b>&#160;&#160;&#160;(PROT_READ | PROT_WRITE)</td></tr>
+<tr class="separator:gab3a1aea60d3139bc62769ccc05bfa21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga33f4dad340787c634ed22db877193e86"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#ga33f4dad340787c634ed22db877193e86">NVRAM_Ip</a>&#160;&#160;&#160;(sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>) * 0)</td></tr>
+<tr class="memdesc:ga33f4dad340787c634ed22db877193e86"><td class="mdescLeft">&#160;</td><td class="mdescRight">program entry point <br /></td></tr>
+<tr class="separator:ga33f4dad340787c634ed22db877193e86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab9f82c1bde39cefc756a2359937144ac"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#gab9f82c1bde39cefc756a2359937144ac">NVRAM_Cp</a>&#160;&#160;&#160;(sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>) * 1)</td></tr>
+<tr class="memdesc:gab9f82c1bde39cefc756a2359937144ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiler pointer <br /></td></tr>
+<tr class="separator:gab9f82c1bde39cefc756a2359937144ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf7a7011095b50dd5d00b900df45f55f3"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#gaf7a7011095b50dd5d00b900df45f55f3">NVRAM_Hp</a>&#160;&#160;&#160;(sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>) * 2)</td></tr>
+<tr class="memdesc:gaf7a7011095b50dd5d00b900df45f55f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">latest word in vocabulary <br /></td></tr>
+<tr class="separator:gaf7a7011095b50dd5d00b900df45f55f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga062d51789c4cfed623041a07dfed4db6"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#ga062d51789c4cfed623041a07dfed4db6">NVRAM_HEADER</a>&#160;&#160;&#160;(sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>) * 3)</td></tr>
+<tr class="memdesc:ga062d51789c4cfed623041a07dfed4db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">memory image header size <br /></td></tr>
+<tr class="separator:ga062d51789c4cfed623041a07dfed4db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">word header structure /offsets/</div></td></tr>
+<tr class="memitem:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaa6d40e0b78dca586b9fc5834481ef2f9">LFA</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="memdesc:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">LFA: Link Field Area. <br /></td></tr>
+<tr class="separator:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79cfc590960ec55950e11e39e78a0c3c"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga79cfc590960ec55950e11e39e78a0c3c">AFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#gaa6d40e0b78dca586b9fc5834481ef2f9">LFA</a> + sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>))</td></tr>
+<tr class="memdesc:ga79cfc590960ec55950e11e39e78a0c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">AFA: Attributes Field Area (IMMED,..) <br /></td></tr>
+<tr class="separator:ga79cfc590960ec55950e11e39e78a0c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#ga79cfc590960ec55950e11e39e78a0c3c">AFA</a> + sizeof(<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>))</td></tr>
+<tr class="memdesc:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">NFA: Name Field Area (tiny byte-counted ASCII string) <br /></td></tr>
+<tr class="separator:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf54d8c850f81ecd16eff4fbc586df350"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaf54d8c850f81ecd16eff4fbc586df350">NFA_MAX</a>&#160;&#160;&#160;0x11</td></tr>
+<tr class="memdesc:gaf54d8c850f81ecd16eff4fbc586df350"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum word name length <br /></td></tr>
+<tr class="separator:gaf54d8c850f81ecd16eff4fbc586df350"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gab8d1248cc8124d70d1cb94a21958fcbb">CFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a> + sizeof(<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>) + <a class="el" href="group__vm.html#ga970cb18fc08709ef42551a9a9f08153c">M</a>[<a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a>])</td></tr>
+<tr class="memdesc:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">CFA: Code Field Area (bytecode) <br /></td></tr>
+<tr class="separator:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga17d5ef0ddbd85ebea7d923268e58ce6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__asm.html#ga17d5ef0ddbd85ebea7d923268e58ce6d">assembler</a> (const char *pfile)</td></tr>
+<tr class="memdesc:ga17d5ef0ddbd85ebea7d923268e58ce6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">assembler  <a href="group__asm.html#ga17d5ef0ddbd85ebea7d923268e58ce6d">More...</a><br /></td></tr>
+<tr class="separator:ga17d5ef0ddbd85ebea7d923268e58ce6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa40b27ae32d6d1ae7160bd6256e08eb8"><td class="memItemLeft" align="right" valign="top">
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__asm.html#gaa40b27ae32d6d1ae7160bd6256e08eb8">yylex</a> ()</td></tr>
 <tr class="memdesc:gaa40b27ae32d6d1ae7160bd6256e08eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">lexer /flex/ <br /></td></tr>
@@ -195,18 +250,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cmd.html#gaadd5fc114c0604b21457e1dca7c8fb87">ret</a> ()</td></tr>
 <tr class="memdesc:gaadd5fc114c0604b21457e1dca7c8fb87"><td class="mdescLeft">&#160;</td><td class="mdescRight">return from <code>call</code> <code>(R: addr -- )</code> <br /></td></tr>
 <tr class="separator:gaadd5fc114c0604b21457e1dca7c8fb87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga7ed5b56ee9a00e233144d5c3b366a808">Bcompile</a> (<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> b)</td></tr>
-<tr class="memdesc:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile byte: <code>M[Cp++] = b</code> <br /></td></tr>
-<tr class="separator:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8dd0b716b7821428f1832ea2dafed472"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga8dd0b716b7821428f1832ea2dafed472">Ccompile</a> (<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> c)</td></tr>
-<tr class="memdesc:ga8dd0b716b7821428f1832ea2dafed472"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile cell: <code>C[Cp+=CELL] = c</code> <br /></td></tr>
-<tr class="separator:ga8dd0b716b7821428f1832ea2dafed472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga0f6bbaaac4e7a8326ab42a54723058f3">Cbyte</a> (<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> b)</td></tr>
+<tr class="memdesc:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile byte: <code>M[Cp++] = b</code> <br /></td></tr>
+<tr class="separator:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab976ec41dc6d92e1eacc08afcab45104"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gab976ec41dc6d92e1eacc08afcab45104">Ccell</a> (<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> c)</td></tr>
+<tr class="memdesc:gab976ec41dc6d92e1eacc08afcab45104"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile cell: <code>C[Cp+=CELL] = c</code> <br /></td></tr>
+<tr class="separator:gab976ec41dc6d92e1eacc08afcab45104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea575cefde659189380ad70af02284a1"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaea575cefde659189380ad70af02284a1">Cheader</a> (std::string *s)</td></tr>
+<tr class="memdesc:gaea575cefde659189380ad70af02284a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile word header <br /></td></tr>
+<tr class="separator:gaea575cefde659189380ad70af02284a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga17014e99077ea665393a2eb198d31a9d"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga17014e99077ea665393a2eb198d31a9d">bcx</a> ()</td></tr>
 <tr class="memdesc:ga17014e99077ea665393a2eb198d31a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">bytecode pipeline loop: fetch/decode/execute <br /></td></tr>
 <tr class="separator:ga17014e99077ea665393a2eb198d31a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga93df4f70c25a211468320a885d560f27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#ga93df4f70c25a211468320a885d560f27">pinit</a> (const char *path)</td></tr>
+<tr class="separator:ga93df4f70c25a211468320a885d560f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadca97696b4b9651ebb8df2665c90fbd9"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html#gadca97696b4b9651ebb8df2665c90fbd9">psync</a> ()</td></tr>
+<tr class="memdesc:gadca97696b4b9651ebb8df2665c90fbd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">sync system state <code>-&gt;</code> image <br /></td></tr>
+<tr class="separator:gadca97696b4b9651ebb8df2665c90fbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">memory operations</div></td></tr>
 <tr class="memitem:gafdcfac720fff4bd7198972582b1e3fee"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mem.html#gafdcfac720fff4bd7198972582b1e3fee">Cstore</a> (<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> addr, <a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> c)</td></tr>
@@ -235,10 +300,14 @@ FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 <a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga9e209c80c1bce17a51f65a83248da385">Cp</a></td></tr>
 <tr class="memdesc:ga9e209c80c1bce17a51f65a83248da385"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiler pointer @ M <br /></td></tr>
 <tr class="separator:ga9e209c80c1bce17a51f65a83248da385"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga914f01f44380c9cedf01116e3e07b902"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga914f01f44380c9cedf01116e3e07b902">M</a> [<a class="el" href="group__config.html#gad197097190188a1227ecf9ae73cc79fb">Msz</a>]</td></tr>
-<tr class="memdesc:ga914f01f44380c9cedf01116e3e07b902"><td class="mdescLeft">&#160;</td><td class="mdescRight">main data/program memory: bytecode shared with data in a single address space <br /></td></tr>
-<tr class="separator:ga914f01f44380c9cedf01116e3e07b902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga3ef83ba87c1f03f1dfa88eff51b5aa98">Hp</a></td></tr>
+<tr class="memdesc:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="mdescLeft">&#160;</td><td class="mdescRight">latest defined word header @ M <br /></td></tr>
+<tr class="separator:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga970cb18fc08709ef42551a9a9f08153c"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga970cb18fc08709ef42551a9a9f08153c">M</a></td></tr>
+<tr class="memdesc:ga970cb18fc08709ef42551a9a9f08153c"><td class="mdescLeft">&#160;</td><td class="mdescRight">main data/program memory: bytecode shared with data in a single address space <br /></td></tr>
+<tr class="separator:ga970cb18fc08709ef42551a9a9f08153c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga970d5b1b5fb047a3d6cd704aed9ddba4"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga970d5b1b5fb047a3d6cd704aed9ddba4">Ip</a></td></tr>
 <tr class="memdesc:ga970d5b1b5fb047a3d6cd704aed9ddba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">instruction pointer @ M <br /></td></tr>

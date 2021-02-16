@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ret',['ret',['../group__cmd.html#gaadd5fc114c0604b21457e1dca7c8fb87',1,'ret():&#160;vm.cpp'],['../group__cmd.html#gaadd5fc114c0604b21457e1dca7c8fb87',1,'ret():&#160;vm.cpp']]]
+  ['pinit',['pinit',['../group__persist.html#ga93df4f70c25a211468320a885d560f27',1,'pinit(const char *path):&#160;vm.cpp'],['../group__persist.html#ga93df4f70c25a211468320a885d560f27',1,'pinit(const char *path):&#160;vm.cpp']]],
+  ['psync',['psync',['../group__persist.html#gadca97696b4b9651ebb8df2665c90fbd9',1,'psync():&#160;vm.cpp'],['../group__persist.html#gadca97696b4b9651ebb8df2665c90fbd9',1,'psync():&#160;vm.cpp']]]
 ];

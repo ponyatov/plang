@@ -78,10 +78,11 @@ Collaboration diagram for vm:</div>
 <map name="group____vm" id="group____vm">
 <area shape="rect" id="node1" href="group__compiler.html" title="compilation in FORTH means adding bytes to the end of used memory " alt="" coords="101,5,172,32"/>
 <area shape="rect" id="node2" href="group__mem.html" title="VM registers &amp; memory spaces. " alt="" coords="111,56,162,83"/>
-<area shape="rect" id="node3" href="group__asm.html" title="simple FORTH&#45;like portable bytecode assembler " alt="" coords="113,107,160,133"/>
-<area shape="rect" id="node4" href="group__bcx.html" title="bytecode interpreter (executor) " alt="" coords="115,157,158,184"/>
-<area shape="rect" id="node5" href="group__config.html" title="config" alt="" coords="108,208,165,235"/>
-<area shape="rect" id="node6" href="group__cmd.html" title="byte&#45;sized commands for stack machine " alt="" coords="93,259,180,285"/>
+<area shape="rect" id="node3" href="group__persist.html" title="libpmem persistent layer " alt="" coords="106,107,167,133"/>
+<area shape="rect" id="node4" href="group__asm.html" title="simple FORTH&#45;like portable bytecode assembler " alt="" coords="113,157,160,184"/>
+<area shape="rect" id="node5" href="group__bcx.html" title="bytecode interpreter (executor) " alt="" coords="115,208,158,235"/>
+<area shape="rect" id="node6" href="group__config.html" title="config" alt="" coords="108,259,165,285"/>
+<area shape="rect" id="node7" href="group__cmd.html" title="byte&#45;sized commands for stack machine " alt="" coords="93,309,180,336"/>
 </map>
 </td></tr></table></center>
 </div>
@@ -105,6 +106,9 @@ Modules</h2></td></tr>
 <tr class="memitem:group__bcx"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bcx.html">bcx</a></td></tr>
 <tr class="memdesc:group__bcx"><td class="mdescLeft">&#160;</td><td class="mdescRight">bytecode interpreter (executor) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__persist"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__persist.html">persist</a></td></tr>
+<tr class="memdesc:group__persist"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>libpmem</code> persistent layer <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -119,10 +123,14 @@ Variables</h2></td></tr>
 <a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga9e209c80c1bce17a51f65a83248da385">Cp</a></td></tr>
 <tr class="memdesc:ga9e209c80c1bce17a51f65a83248da385"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiler pointer @ M <br /></td></tr>
 <tr class="separator:ga9e209c80c1bce17a51f65a83248da385"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga914f01f44380c9cedf01116e3e07b902"><td class="memItemLeft" align="right" valign="top"><a id="ga914f01f44380c9cedf01116e3e07b902"></a>
-<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga914f01f44380c9cedf01116e3e07b902">M</a> [<a class="el" href="group__config.html#gad197097190188a1227ecf9ae73cc79fb">Msz</a>]</td></tr>
-<tr class="memdesc:ga914f01f44380c9cedf01116e3e07b902"><td class="mdescLeft">&#160;</td><td class="mdescRight">main data/program memory: bytecode shared with data in a single address space <br /></td></tr>
-<tr class="separator:ga914f01f44380c9cedf01116e3e07b902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="memItemLeft" align="right" valign="top"><a id="ga3ef83ba87c1f03f1dfa88eff51b5aa98"></a>
+<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga3ef83ba87c1f03f1dfa88eff51b5aa98">Hp</a></td></tr>
+<tr class="memdesc:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="mdescLeft">&#160;</td><td class="mdescRight">latest defined word header @ M <br /></td></tr>
+<tr class="separator:ga3ef83ba87c1f03f1dfa88eff51b5aa98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga970cb18fc08709ef42551a9a9f08153c"><td class="memItemLeft" align="right" valign="top"><a id="ga970cb18fc08709ef42551a9a9f08153c"></a>
+<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga970cb18fc08709ef42551a9a9f08153c">M</a></td></tr>
+<tr class="memdesc:ga970cb18fc08709ef42551a9a9f08153c"><td class="mdescLeft">&#160;</td><td class="mdescRight">main data/program memory: bytecode shared with data in a single address space <br /></td></tr>
+<tr class="separator:ga970cb18fc08709ef42551a9a9f08153c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga970d5b1b5fb047a3d6cd704aed9ddba4"><td class="memItemLeft" align="right" valign="top"><a id="ga970d5b1b5fb047a3d6cd704aed9ddba4"></a>
 <a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vm.html#ga970d5b1b5fb047a3d6cd704aed9ddba4">Ip</a></td></tr>
 <tr class="memdesc:ga970d5b1b5fb047a3d6cd704aed9ddba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">instruction pointer @ M <br /></td></tr>

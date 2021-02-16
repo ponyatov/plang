@@ -81,14 +81,41 @@ Collaboration diagram for compiler:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="memItemLeft" align="right" valign="top"><a id="ga7ed5b56ee9a00e233144d5c3b366a808"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga7ed5b56ee9a00e233144d5c3b366a808">Bcompile</a> (<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> b)</td></tr>
-<tr class="memdesc:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile byte: <code>M[Cp++] = b</code> <br /></td></tr>
-<tr class="separator:ga7ed5b56ee9a00e233144d5c3b366a808"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8dd0b716b7821428f1832ea2dafed472"><td class="memItemLeft" align="right" valign="top"><a id="ga8dd0b716b7821428f1832ea2dafed472"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga8dd0b716b7821428f1832ea2dafed472">Ccompile</a> (<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> c)</td></tr>
-<tr class="memdesc:ga8dd0b716b7821428f1832ea2dafed472"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile cell: <code>C[Cp+=CELL] = c</code> <br /></td></tr>
-<tr class="separator:ga8dd0b716b7821428f1832ea2dafed472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="memItemLeft" align="right" valign="top"><a id="ga0f6bbaaac4e7a8326ab42a54723058f3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga0f6bbaaac4e7a8326ab42a54723058f3">Cbyte</a> (<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a> b)</td></tr>
+<tr class="memdesc:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile byte: <code>M[Cp++] = b</code> <br /></td></tr>
+<tr class="separator:ga0f6bbaaac4e7a8326ab42a54723058f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab976ec41dc6d92e1eacc08afcab45104"><td class="memItemLeft" align="right" valign="top"><a id="gab976ec41dc6d92e1eacc08afcab45104"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gab976ec41dc6d92e1eacc08afcab45104">Ccell</a> (<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a> c)</td></tr>
+<tr class="memdesc:gab976ec41dc6d92e1eacc08afcab45104"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile cell: <code>C[Cp+=CELL] = c</code> <br /></td></tr>
+<tr class="separator:gab976ec41dc6d92e1eacc08afcab45104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea575cefde659189380ad70af02284a1"><td class="memItemLeft" align="right" valign="top"><a id="gaea575cefde659189380ad70af02284a1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaea575cefde659189380ad70af02284a1">Cheader</a> (std::string *s)</td></tr>
+<tr class="memdesc:gaea575cefde659189380ad70af02284a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">compile word header <br /></td></tr>
+<tr class="separator:gaea575cefde659189380ad70af02284a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+word header structure /offsets/</h2></td></tr>
+<tr class="memitem:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="memItemLeft" align="right" valign="top"><a id="gaa6d40e0b78dca586b9fc5834481ef2f9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaa6d40e0b78dca586b9fc5834481ef2f9">LFA</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="memdesc:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">LFA: Link Field Area. <br /></td></tr>
+<tr class="separator:gaa6d40e0b78dca586b9fc5834481ef2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79cfc590960ec55950e11e39e78a0c3c"><td class="memItemLeft" align="right" valign="top"><a id="ga79cfc590960ec55950e11e39e78a0c3c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#ga79cfc590960ec55950e11e39e78a0c3c">AFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#gaa6d40e0b78dca586b9fc5834481ef2f9">LFA</a> + sizeof(<a class="el" href="group__config.html#ga8b4d4a1fcf419d5a3820c5b4b027ee8b">CELL</a>))</td></tr>
+<tr class="memdesc:ga79cfc590960ec55950e11e39e78a0c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">AFA: Attributes Field Area (IMMED,..) <br /></td></tr>
+<tr class="separator:ga79cfc590960ec55950e11e39e78a0c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="memItemLeft" align="right" valign="top"><a id="gae8c93e5bbe8aad9cc4c2cc71681209a5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#ga79cfc590960ec55950e11e39e78a0c3c">AFA</a> + sizeof(<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>))</td></tr>
+<tr class="memdesc:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">NFA: Name Field Area (tiny byte-counted ASCII string) <br /></td></tr>
+<tr class="separator:gae8c93e5bbe8aad9cc4c2cc71681209a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf54d8c850f81ecd16eff4fbc586df350"><td class="memItemLeft" align="right" valign="top"><a id="gaf54d8c850f81ecd16eff4fbc586df350"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gaf54d8c850f81ecd16eff4fbc586df350">NFA_MAX</a>&#160;&#160;&#160;0x11</td></tr>
+<tr class="memdesc:gaf54d8c850f81ecd16eff4fbc586df350"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum word name length <br /></td></tr>
+<tr class="separator:gaf54d8c850f81ecd16eff4fbc586df350"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="memItemLeft" align="right" valign="top"><a id="gab8d1248cc8124d70d1cb94a21958fcbb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__compiler.html#gab8d1248cc8124d70d1cb94a21958fcbb">CFA</a>&#160;&#160;&#160;(<a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a> + sizeof(<a class="el" href="group__config.html#gaec93e83855ac17c3c25c55c37ca186dd">BYTE</a>) + <a class="el" href="group__vm.html#ga970cb18fc08709ef42551a9a9f08153c">M</a>[<a class="el" href="group__compiler.html#gae8c93e5bbe8aad9cc4c2cc71681209a5">NFA</a>])</td></tr>
+<tr class="memdesc:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">CFA: Code Field Area (bytecode) <br /></td></tr>
+<tr class="separator:gab8d1248cc8124d70d1cb94a21958fcbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p><em>compilation in FORTH</em> means adding bytes to the end of used memory </p>
